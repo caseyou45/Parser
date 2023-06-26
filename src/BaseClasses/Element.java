@@ -1,6 +1,8 @@
+package BaseClasses;
+
 import java.util.Map;
 
-interface Element {
+public interface Element {
 
     int getStartingTagLength();
 
