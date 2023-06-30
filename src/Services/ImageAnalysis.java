@@ -24,6 +24,7 @@ public class ImageAnalysis {
         this.pageURL = pageURL;
         this.imageDTOS = new HashSet<>();
 
+
         findImagesThatFitTerms();
     }
 
@@ -31,13 +32,14 @@ public class ImageAnalysis {
         for (Element el : images) {
             Image im = (Image) el;
             for (String val : el.getAttributes().values()) {
+
                 for (String term : terms) {
                     if (val.toLowerCase().contains(term.toLowerCase())) {
+                        System.out.println(val + " " + term);
                         ImageDTO imageDTO = new ImageDTO();
                         imageDTO.setBaseURL(baseURL);
-                        imageDTO.setPageURL(baseURL);
                         imageDTO.setPageURL(pageURL);
-                        imageDTO.setSrc(cleanUpURL(im.getSrc(), baseURL));
+                        imageDTO.setSrc(URLTransform.cleanUpURL(baseURL, im.getSrc()));
                         imageDTO.setAlt(im.getAlt());
                         imageDTOS.add(imageDTO);
 
@@ -55,30 +57,6 @@ public class ImageAnalysis {
 
     public Set<ImageDTO> getImageDTOS() {
         return imageDTOS;
-    }
-
-    private String cleanUpURL(String baseURL, String newURL) {
-        newURL = newURL.replace("\"", "");
-
-        boolean baseEnd = baseURL.endsWith("/");
-        boolean newStart = newURL.startsWith("/");
-
-
-        if (newURL.startsWith(baseURL)) {
-            return newURL;
-        }
-
-        if (baseEnd && newStart) {
-            return baseURL.substring(0, baseURL.length() - 1) + newURL;
-        }
-
-        if (baseEnd || newStart) {
-            return baseURL + newURL;
-        }
-
-        return baseURL + "/" + newURL;
-
-
     }
 
 

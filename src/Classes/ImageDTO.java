@@ -1,5 +1,7 @@
 package Classes;
 
+import java.util.Objects;
+
 public class ImageDTO {
 
     private String src;
@@ -56,5 +58,18 @@ public class ImageDTO {
 
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ImageDTO imageDTO = (ImageDTO) o;
+        return Objects.equals(src, imageDTO.src) && Objects.equals(alt, imageDTO.alt) && Objects.equals(baseURL, imageDTO.baseURL) && Objects.equals(pageURL, imageDTO.pageURL) && Objects.equals(dateAccessed, imageDTO.dateAccessed) && Objects.equals(dateCreated, imageDTO.dateCreated);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(src, alt, baseURL, pageURL, dateAccessed, dateCreated);
     }
 }

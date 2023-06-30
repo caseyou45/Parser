@@ -3,6 +3,7 @@ package Parser;
 import BaseClasses.Element;
 import BaseClasses.Elements;
 import Services.ElementFactory;
+import Services.ElementFactory2;
 
 import java.util.*;
 
@@ -39,11 +40,18 @@ public class Parser {
 
         int end = html.length();
 
+
         ElementFactory elementFactory = new ElementFactory();
-        Element el;
+        ElementFactory2 elementFactory2 = new ElementFactory2();
+
+        Element el = null;
+
+        long startTime = System.currentTimeMillis();
 
         while (index < end) {
-            if ((el = elementFactory.getElement(html.substring(index))) != null) {
+
+
+            if (html.charAt(index) == '<' && (el = elementFactory2.getElement(html.substring(index))) != null) {
                 el.setStartOfElement(index);
 
                 deque.addFirst(el);
@@ -92,6 +100,12 @@ public class Parser {
             index++;
 
         }
+
+        long endTime = System.currentTimeMillis();
+
+        long elapsedTime = endTime - startTime;
+
+        System.out.println("Elapsed Time: " + elapsedTime + " milliseconds");
 
     }
 
