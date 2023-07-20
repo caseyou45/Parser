@@ -1,34 +1,33 @@
-import Classes.ImageDTO;
+import BaseClasses.Element;
+import BaseClasses.HtmlAttribute;
+import BaseClasses.HtmlTag;
 import Crawler.Crawler;
 import File.FileHandler;
-import JSON.JSON;
+import Services.Analysis;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
-import static Crawler.Crawler.runningThreads;
 import static File.FileHandler.*;
 
 
 public class Main {
-    private static final String base = "https://www.ou.edu";
+    private static final String base = "https://www.ou.edu/";
+    private static final String fileName = base.substring(base.indexOf(".") + 1, base.lastIndexOf(".")) + ".json";
+    private static final Map<HtmlTag, List<Element>> parentElementMap = Collections.synchronizedMap(new HashMap<>());
+    private static final Set<String> syncSetForURLS = Collections.synchronizedSet(new HashSet<>());
+    private static final String testHTML = FileHandler.FileToString("src/Test/STLEVENTS.html");
+
+    public static void main(String[] args) {
 
 
-    public static <JsonObject> void main(String[] args) {
-        String testHTML = FileHandler.FileToString("src/Test/STLEVENTS.html");
+//        Crawler crawler = new Crawler(base, base, syncSetForURLS, parentElementMap, testHTML);
+        Crawler crawler = new Crawler(base, base, syncSetForURLS, parentElementMap);
 
-
-        Set<String> syncSetForURLS = Collections.synchronizedSet(new HashSet<>());
-        Set<ImageDTO> syncSetForImageDTOs = Collections.synchronizedSet(new HashSet<>());
-
-//        Crawler crawler = new Crawler(base, base, syncSetForURLS, syncSetForImageDTOs, testHTML);
-        if (!fileExists("OU.json")) {
-            createFile("OU.json");
-//            writeFile("OU.json", "OU");
+        if (!fileExists(fileName)) {
+            createFile(fileName);
+            writeFile(fileName, "");
         }
 
-        Crawler crawler = new Crawler(base, base, syncSetForURLS, syncSetForImageDTOs);
 
         Thread initialThread = new Thread(crawler);
         initialThread.start();
@@ -39,12 +38,14 @@ public class Main {
         }
 
 
-        JSON json = new JSON(syncSetForImageDTOs);
+//        JSON json = new JSON(syncSetForImageDTOs);
 
-        String result = json.getString();
+//        String result = json.getString();
+
+        new Analysis(parentElementMap, "ceo covid smiles molly female");
 
 
-        appendToFile("OU.json", result);
+        appendToFile(fileName, "result");
 
     }
 

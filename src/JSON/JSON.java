@@ -1,8 +1,10 @@
 package JSON;
 
-import Classes.ImageDTO;
+import DTOs.DTO;
+import DTOs.ImageDTO;
 
 import java.util.Collection;
+import java.util.Set;
 
 
 public class JSON {
@@ -10,7 +12,7 @@ public class JSON {
     Collection<ImageDTO> collection;
     StringBuilder stringBuilder;
 
-    public JSON(Collection<ImageDTO> collection) {
+    public JSON(Set<ImageDTO> collection) {
         this.collection = collection;
         stringBuilder = new StringBuilder();
         run();
@@ -43,7 +45,7 @@ public class JSON {
 
 
     private String getValueOfQuotesIfNull(String val) {
-        if (val == null) return "";
+        if (val == null || val.isEmpty() || (val.length() == 1 && val.charAt(0) == '\"')) return "";
         return val;
     }
 

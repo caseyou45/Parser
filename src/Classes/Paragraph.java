@@ -1,19 +1,12 @@
 package Classes;
 
-import BaseClasses.Elements;
+import BaseClasses.HtmlTag;
 import BaseClasses.NonSelfClosingTag;
 
 public class Paragraph extends NonSelfClosingTag {
 
-
     public Paragraph() {
-        super("<p", "</p>", Elements.PARAGRAPH);
-    }
-
-
-    @Override
-    public void setAttributes(String unparsedAttributes) {
-
+        super(HtmlTag.PARAGRAPH.getOpeningTag(), HtmlTag.PARAGRAPH.getClosingTag(), HtmlTag.PARAGRAPH);
     }
 
 

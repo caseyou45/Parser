@@ -1,16 +1,18 @@
-package Classes;
+package DTOs;
+
+import BaseClasses.HtmlTag;
 
 import java.util.Objects;
 
-public class ImageDTO {
+public class ImageDTO implements DTO {
 
+    private final HtmlTag element = HtmlTag.IMAGE;
     private String src;
     private String alt;
     private String baseURL;
     private String pageURL;
     private String dateAccessed;
     private String dateCreated;
-
 
     public String getSrc() {
         return src;
@@ -34,6 +36,10 @@ public class ImageDTO {
 
     public void setBaseURL(String baseURL) {
         this.baseURL = baseURL;
+    }
+
+    public HtmlTag getElement() {
+        return element;
     }
 
     public String getPageURL() {

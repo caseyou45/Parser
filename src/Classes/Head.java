@@ -1,20 +1,13 @@
 package Classes;
 
-import BaseClasses.Elements;
+import BaseClasses.HtmlTag;
 import BaseClasses.NonSelfClosingTag;
 
 public class Head extends NonSelfClosingTag {
 
 
     public Head() {
-        super("<head", "</head>", Elements.HEAD);
+        super(HtmlTag.HEAD.getOpeningTag(), HtmlTag.HEAD.getClosingTag(), HtmlTag.HEAD);
     }
-
-
-    @Override
-    public void setAttributes(String unparsedAttributes) {
-
-    }
-
 
 }

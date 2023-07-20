@@ -1,25 +1,20 @@
 package Parser;
 
 import BaseClasses.Element;
-import BaseClasses.Elements;
-import Services.ElementFactory;
-import Services.ElementFactory2;
+import BaseClasses.HtmlTag;
+import Services.ElementFactory3;
 
 import java.util.*;
 
 public class Parser {
-    private final String baseURL;
-    private final String pageURL;
+
     private final String html;
-    private final Map<Elements, List<Element>> elementMap;
+    private final Map<HtmlTag, List<Element>> elementMap;
 
 
-    public Parser(String html, String baseURL, String pageURL) {
-        this.baseURL = baseURL;
-        this.pageURL = pageURL;
+    public Parser(String html) {
         this.html = html;
         this.elementMap = new HashMap<>();
-
         go();
     }
 
@@ -29,31 +24,26 @@ public class Parser {
     }
 
 
-    public Map<Elements, List<Element>> getElementMap() {
+    public Map<HtmlTag, List<Element>> getElementMap() {
         return elementMap;
     }
 
-    private void elementFinder(String html, Map<Elements, List<Element>> elementMap) {
+
+    private void elementFinder(String html, Map<HtmlTag, List<Element>> elementMap) {
         Deque<Element> deque = new LinkedList<>();
 
         int index = 0;
 
         int end = html.length();
 
+        ElementFactory3 elementFactory = new ElementFactory3();
 
-        ElementFactory elementFactory = new ElementFactory();
-        ElementFactory2 elementFactory2 = new ElementFactory2();
+        Element el;
 
-        Element el = null;
-
-        long startTime = System.currentTimeMillis();
 
         while (index < end) {
 
-
-            if (html.charAt(index) == '<' && (el = elementFactory2.getElement(html.substring(index))) != null) {
-                el.setStartOfElement(index);
-
+            if (html.charAt(index) == '<' && (el = elementFactory.getElement(html, index)) != null) {
                 deque.addFirst(el);
 
                 int indexOfEndOfStartingTag;
@@ -65,6 +55,7 @@ public class Parser {
                 }
 
                 if ((indexOfEndOfStartingTag - index) > el.getStartingTagLength()) {
+
                     el.setAttributes(html.substring(index + el.getStartingTagLength(), indexOfEndOfStartingTag));
                 }
 
@@ -83,7 +74,7 @@ public class Parser {
                     top.setEndOfElement(index);
 
                     if (!top.isSelfClosing()) {
-                        top.setInnerHTML(html.substring(top.getIndexOfEndOfStartingTag(), top.getEndOfElement()));
+                        top.setInnerHTML(html.substring(top.getIndexOfEndOfStartingTag(), index));
                     }
 
 
@@ -101,11 +92,6 @@ public class Parser {
 
         }
 
-        long endTime = System.currentTimeMillis();
-
-        long elapsedTime = endTime - startTime;
-
-        System.out.println("Elapsed Time: " + elapsedTime + " milliseconds");
 
     }
 

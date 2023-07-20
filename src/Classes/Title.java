@@ -1,19 +1,12 @@
 package Classes;
 
-import BaseClasses.Elements;
+import BaseClasses.HtmlTag;
 import BaseClasses.NonSelfClosingTag;
 
 public class Title extends NonSelfClosingTag {
 
-
     public Title() {
-        super("<title", "</title>", Elements.TITLE);
-    }
-
-
-    @Override
-    public void setAttributes(String unparsedAttributes) {
-
+        super(HtmlTag.TITLE.getOpeningTag(), HtmlTag.TITLE.getClosingTag(), HtmlTag.TITLE);
     }
 
 

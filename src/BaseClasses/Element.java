@@ -14,7 +14,7 @@ public interface Element {
 
     boolean isSelfClosing();
 
-    Map<String, String> getAttributes();
+    Map<HtmlAttribute, String> getAttributes();
 
     void setAttributes(String text);
 
@@ -34,7 +34,7 @@ public interface Element {
 
     void setInnerHTML(String innerHTML);
 
-    Elements getType();
+    HtmlTag getType();
 
 
 }

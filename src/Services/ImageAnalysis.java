@@ -1,8 +1,10 @@
 package Services;
 
 import BaseClasses.Element;
+import BaseClasses.HtmlAttribute;
 import Classes.Image;
-import Classes.ImageDTO;
+import DTOs.DTO;
+import DTOs.ImageDTO;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -32,15 +34,14 @@ public class ImageAnalysis {
         for (Element el : images) {
             Image im = (Image) el;
             for (String val : el.getAttributes().values()) {
-
                 for (String term : terms) {
                     if (val.toLowerCase().contains(term.toLowerCase())) {
-                        System.out.println(val + " " + term);
                         ImageDTO imageDTO = new ImageDTO();
                         imageDTO.setBaseURL(baseURL);
                         imageDTO.setPageURL(pageURL);
-                        imageDTO.setSrc(URLTransform.cleanUpURL(baseURL, im.getSrc()));
-                        imageDTO.setAlt(im.getAlt());
+                        imageDTO.setSrc(URLTransform.cleanUpURL(baseURL, im.getAttributes().get(HtmlAttribute.SRC)));
+                        imageDTO.setSrc(URLTransform.cleanUpURL(baseURL, im.getAttributes().get(HtmlAttribute.ALT)));
+
                         imageDTOS.add(imageDTO);
 
 

@@ -1,28 +1,32 @@
 package BaseClasses;
 
+import Services.HTMLAttributeProcessor;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class NonSelfClosingTag implements Element {
 
-    private final Map<String, String> attributes;
     private final String startingTag;
     private final String endingTag;
-    private final Elements type;
+    private final HtmlTag type;
     private final boolean isSelfClosing = false;
+    private Map<HtmlAttribute, String> attributes;
     private int startOfElement;
     private int endOfElement;
     private int indexOfEndOfStartingTag;
     private String innerHTML;
 
-    public NonSelfClosingTag(String startingTag, String endingTag, Elements type) {
+
+    public NonSelfClosingTag(String startingTag, String endingTag, HtmlTag type) {
         this.attributes = new HashMap<>();
         this.startingTag = startingTag;
         this.endingTag = endingTag;
         this.type = type;
     }
 
-    public Elements getType() {
+
+    public HtmlTag getType() {
         return type;
     }
 
@@ -42,7 +46,6 @@ public abstract class NonSelfClosingTag implements Element {
         return endingTag;
     }
 
-
     public boolean isSelfClosing() {
         return isSelfClosing;
     }
@@ -59,49 +62,9 @@ public abstract class NonSelfClosingTag implements Element {
         return indexOfEndOfStartingTag;
     }
 
-
     public void setIndexOfEndOfStartingTag(int indexOfEndOfStartingTag) {
         this.indexOfEndOfStartingTag = indexOfEndOfStartingTag;
     }
-
-
-    public Map<String, String> getAttributes() {
-        return attributes;
-    }
-
-
-    abstract public void setAttributes(String unparsedAttributes);
-
-    public void unparsedAttributesToAttributeHashMap(String unparsedAttributes) {
-        unparsedAttributes = unparsedAttributes.trim();
-
-
-        int start = 0;
-        int index = 1;
-        while (index < unparsedAttributes.length()) {
-            if (unparsedAttributes.charAt(index) == ' ' && unparsedAttributes.charAt(index - 1) == '\"') {
-
-                String sub = unparsedAttributes.substring(start, index);
-                if (sub.contains("=")) {
-                    String[] split = sub.split("=");
-                    attributes.put(split[0], split[1]);
-                }
-                start = index + 1;
-            }
-            index++;
-        }
-
-        if (unparsedAttributes.substring(start).contains("=")) {
-            String[] split = unparsedAttributes.substring(start).split("=");
-            String k = split[0];
-            String v = split[1];
-
-            attributes.put(k, v);
-        }
-
-
-    }
-
 
     public int getStartOfElement() {
         return startOfElement;
@@ -117,6 +80,14 @@ public abstract class NonSelfClosingTag implements Element {
 
     public void setEndOfElement(int endOfElement) {
         this.endOfElement = endOfElement;
+    }
+
+    public Map<HtmlAttribute, String> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(String unparsedAttributes) {
+        this.attributes = HTMLAttributeProcessor.parseStringToAttributeHashMap(unparsedAttributes);
     }
 
 

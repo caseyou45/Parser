@@ -1,56 +1,48 @@
 package Crawler;
 
-import java.io.File;
 import java.io.IOException;
 
 import BaseClasses.Element;
-import BaseClasses.Elements;
-import Classes.ImageDTO;
+import BaseClasses.HtmlTag;
 import Parser.Parser;
+import Services.Analysis;
 import Services.AnchorAnalysis;
 import Services.ImageAnalysis;
 import Web.Web;
-import File.FileHandler;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import static File.FileHandler.*;
+import java.util.*;
 
 
 public class Crawler implements Runnable {
     public static int runningThreads = 1;
     private final String baseURL;
     private final String pageURL;
-    private final String terms = "COVID Corona Virus Vaccination Delta variant isolation mask masks";
     private final Set<String> syncSetForURLS;
-    private final Set<ImageDTO> syncSetForImageDTOs;
+    private final Map<HtmlTag, List<Element>> parentElementMap;
     private String testHTML;
 
-    public Crawler(String baseURL, String pageURL, Set<String> syncSetForURLS, Set<ImageDTO> syncSetForImageDTOs) {
+    public Crawler(String baseURL, String pageURL, Set<String> syncSetForURLS, Map<HtmlTag, List<Element>> parentElementMap) {
         this.baseURL = baseURL;
         this.pageURL = pageURL;
         this.syncSetForURLS = syncSetForURLS;
-        this.syncSetForImageDTOs = syncSetForImageDTOs;
+        this.parentElementMap = parentElementMap;
 
     }
 
-    public Crawler(String baseURL, String pageURL, Set<String> syncSetForURLS, Set<ImageDTO> syncSetForImageDTOs, String testHTML) {
+    public Crawler(String baseURL, String pageURL, Set<String> syncSetForURLS, Map<HtmlTag, List<Element>> parentElementMap, String testHTML) {
         this.baseURL = baseURL;
         this.pageURL = pageURL;
         this.syncSetForURLS = syncSetForURLS;
-        this.syncSetForImageDTOs = syncSetForImageDTOs;
         this.testHTML = testHTML;
+        this.parentElementMap = parentElementMap;
     }
 
 
     public void run() {
         crawl();
         try {
-            Thread.sleep(100);
+            Thread.sleep(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -75,26 +67,31 @@ public class Crawler implements Runnable {
 
 
         if (html != null && !html.isEmpty()) {
-            Parser parser = new Parser(html, baseURL, pageURL);
-            Map<Elements, List<Element>> elementMap = parser.getElementMap();
+            Parser parser = new Parser(html);
+            Map<HtmlTag, List<Element>> elementMap = parser.getElementMap();
 
-            if (elementMap.get(Elements.IMAGE) != null) {
-                Set<ImageDTO> imagesFromPage = new ImageAnalysis(elementMap.get(Elements.IMAGE), terms, baseURL, pageURL).getImageDTOS();
-                syncSetForImageDTOs.addAll(imagesFromPage);
+
+            for (Map.Entry<HtmlTag, List<Element>> thisThreadElement : elementMap.entrySet()) {
+                HtmlTag keyToBePut = thisThreadElement.getKey();
+                List<Element> listFromParent = parentElementMap.getOrDefault(keyToBePut, new ArrayList<>());
+                listFromParent.addAll(thisThreadElement.getValue());
+                parentElementMap.put(keyToBePut, listFromParent);
 
             }
-            if (elementMap.get(Elements.ANCHOR) != null) {
-                Set<String> anchorHrefs = new AnchorAnalysis(baseURL, elementMap.get(Elements.ANCHOR)).getAnchorHrefs();
 
-                if (syncSetForURLS.size() < 100) {
+
+            if (elementMap.get(HtmlTag.ANCHOR) != null) {
+                Set<String> anchorHrefs = new AnchorAnalysis(baseURL, elementMap.get(HtmlTag.ANCHOR)).getAnchorHrefs();
+
+                if (syncSetForURLS.size() < 20) {
                     for (String newPageURL : anchorHrefs) {
-                        if (!newPageURL.isEmpty() && !syncSetForURLS.contains(newPageURL)) {
+                        if (!newPageURL.isEmpty()) {
                             syncSetForURLS.add(newPageURL);
-                            Crawler crawler = new Crawler(baseURL, newPageURL, syncSetForURLS, syncSetForImageDTOs);
+
+                            Crawler crawler = new Crawler(baseURL, newPageURL, syncSetForURLS, parentElementMap);
                             Thread thread = new Thread(crawler);
                             threads.add(thread);
                             thread.start();
-
 
                         }
                     }
@@ -115,13 +112,5 @@ public class Crawler implements Runnable {
 
     }
 
-
-//    private void logImageIfNotAlready(Set<ImageDTO> imagesFromPage) {
-//        for (ImageDTO imageDTO : imagesFromPage) {
-//            if (!syncSetForImageDTOs.contains(imageDTO)) {
-//                syncSetForImageDTOs.add(imageDTO);
-//            }
-//        }
-//    }
 
 }
