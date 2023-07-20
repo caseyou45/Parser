@@ -1,9 +1,9 @@
 import BaseClasses.Element;
-import BaseClasses.HtmlAttribute;
 import BaseClasses.HtmlTag;
 import Crawler.Crawler;
 import File.FileHandler;
 import Services.Analysis;
+import Services.HtmlConfigParser;
 
 import java.util.*;
 
@@ -18,6 +18,8 @@ public class Main {
     private static final String testHTML = FileHandler.FileToString("src/Test/STLEVENTS.html");
 
     public static void main(String[] args) {
+
+        HtmlConfigParser htmlConfigParser = new HtmlConfigParser();
 
 
 //        Crawler crawler = new Crawler(base, base, syncSetForURLS, parentElementMap, testHTML);
@@ -42,7 +44,7 @@ public class Main {
 
 //        String result = json.getString();
 
-        new Analysis(parentElementMap, "ceo covid smiles molly female");
+        new Analysis(parentElementMap, htmlConfigParser, "ceo covid smiles molly female");
 
 
         appendToFile(fileName, "result");

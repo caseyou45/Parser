@@ -17,7 +17,7 @@ public class ElementFactory {
                 return new Paragraph();
             }
             if (html.charAt(1) == 'a') {
-                return new Anchor();
+                return new A();
             }
 
         }

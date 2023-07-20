@@ -6,7 +6,7 @@ import BaseClasses.NonSelfClosingTag;
 public class Paragraph extends NonSelfClosingTag {
 
     public Paragraph() {
-        super(HtmlTag.PARAGRAPH.getOpeningTag(), HtmlTag.PARAGRAPH.getClosingTag(), HtmlTag.PARAGRAPH);
+        super(HtmlTag.P.getOpeningTag(), HtmlTag.P.getClosingTag(), HtmlTag.P);
     }
 
 

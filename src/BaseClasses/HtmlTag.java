@@ -2,7 +2,7 @@ package BaseClasses;
 
 
 public enum HtmlTag {
-    ANCHOR("<a", "</a>"),
+    A("<a", "</a>"),
     BODY("<body", "</body>"),
     BR("<br>", ">"),
     BUTTON("<button", "</button>"),
@@ -26,7 +26,7 @@ public enum HtmlTag {
     META("<meta", ">"),
     OL("<ol", "</ol>"),
     OPTION("<option", "</option>"),
-    PARAGRAPH("<p", "</p>"),
+    P("<p", "</p>"),
     SCRIPT("<script", "</script>"),
     SELECT("<select", "</select>"),
     SPAN("<span", "</span>"),

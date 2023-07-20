@@ -21,7 +21,7 @@ public class ElementFactory3 {
             factoryMap.put("<p", Paragraph::new);
         }
         if (!unwantedElements.contains("a")) {
-            factoryMap.put("<a", Anchor::new);
+            factoryMap.put("<a", A::new);
         }
         if (!unwantedElements.contains("head")) {
             factoryMap.put("<head", Head::new);

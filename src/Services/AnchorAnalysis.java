@@ -2,7 +2,7 @@ package Services;
 
 import BaseClasses.Element;
 import BaseClasses.HtmlAttribute;
-import Classes.Anchor;
+import Classes.A;
 
 import java.util.HashSet;
 import java.util.List;
@@ -36,7 +36,7 @@ public class AnchorAnalysis {
             return;
 
         for (Element el : anchorElements) {
-            Anchor anchor = (Anchor) el;
+            A anchor = (A) el;
 
             anchorHrefs.add(URLTransform.cleanUpURL(baseURL, anchor.getAttributes().get(HtmlAttribute.HREF)));
         }

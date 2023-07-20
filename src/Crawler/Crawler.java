@@ -80,8 +80,8 @@ public class Crawler implements Runnable {
             }
 
 
-            if (elementMap.get(HtmlTag.ANCHOR) != null) {
-                Set<String> anchorHrefs = new AnchorAnalysis(baseURL, elementMap.get(HtmlTag.ANCHOR)).getAnchorHrefs();
+            if (elementMap.get(HtmlTag.A) != null) {
+                Set<String> anchorHrefs = new AnchorAnalysis(baseURL, elementMap.get(HtmlTag.A)).getAnchorHrefs();
 
                 if (syncSetForURLS.size() < 20) {
                     for (String newPageURL : anchorHrefs) {

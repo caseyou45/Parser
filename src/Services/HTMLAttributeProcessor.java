@@ -48,7 +48,6 @@ public class HTMLAttributeProcessor {
 
         }
 
-        System.out.println(attributes);
 
         return attributes;
 

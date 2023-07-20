@@ -32,7 +32,7 @@ public class ElementFactory2 {
 
         switch (tag) {
             case "<a":
-                return new Anchor();
+                return new A();
             case "<p":
                 return new Paragraph();
             case "<head":

@@ -1,0 +1,62 @@
+# Uncomment the elements you want to include
+
+A
+# BODY
+# BR
+# BUTTON
+# DIV
+# DOCTYPE
+# FORM
+# H1
+# H2
+# H3
+# H4
+# H5
+# H6
+# HEAD
+# HR
+# HTML
+IMAGE
+# INPUT
+# LABEL
+# LI
+# LINK
+# META
+# OL
+# OPTION
+# P
+# SCRIPT
+# SELECT
+# SPAN
+# STYLE
+# TABLE
+# TD
+# TEXTAREA
+# TH
+# TITLE
+# TR
+# UL
+
+# Uncomment the attributes you want to include
+
+ALT
+# CHECKED
+# CLASS
+# DISABLED
+# HEIGHT
+# HREF
+# ID
+# MAXLENGTH
+# NAME
+# ONCHANGE
+# ONCLICK
+# ONMOUSEOUT
+# ONMOUSEOVER
+# READONLY
+# SELECTED
+SRC
+# STYLE
+# TITLE
+# TYPE
+# VALUE
+# WIDTH
