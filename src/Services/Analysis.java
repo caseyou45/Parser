@@ -28,7 +28,6 @@ public class Analysis {
             for (Element element : parentElementMap.get(htmlTag)) {
                 for (HtmlAttribute htmlAttribute : attributes) {
                     System.out.println(element.getAttributes().get(htmlAttribute));
-
                 }
             }
 

@@ -1,10 +1,5 @@
 package Web;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,24 +12,24 @@ import java.util.logging.Logger;
 
 public class Web {
 
-    public static String sendGETSelenium(String searchURL) throws IOException {
-
-        Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("headless");
-
-        WebDriver driver = new ChromeDriver(options);
-
-        driver.get(searchURL);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(100));
-        wait.until(ExpectedConditions.jsReturnsValue("return document.readyState === 'complete';"));
-
-        String htmlContent = driver.getPageSource();
-
-        driver.quit();
-        return htmlContent;
-
-    }
+//    public static String sendGETSelenium(String searchURL) throws IOException {
+//
+//        Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("headless");
+//
+//        WebDriver driver = new ChromeDriver(options);
+//
+//        driver.get(searchURL);
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(100));
+//        wait.until(ExpectedConditions.jsReturnsValue("return document.readyState === 'complete';"));
+//
+//        String htmlContent = driver.getPageSource();
+//
+//        driver.quit();
+//        return htmlContent;
+//
+//    }
 
     public static String sendGET(String searchURL) throws IOException {
 

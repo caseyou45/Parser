@@ -23,7 +23,7 @@ public class Main {
 
 
 //        Crawler crawler = new Crawler(base, base, syncSetForURLS, parentElementMap, testHTML);
-        Crawler crawler = new Crawler(base, base, syncSetForURLS, parentElementMap);
+        Crawler crawler = new Crawler(base, base, syncSetForURLS, parentElementMap, htmlConfigParser.getTags());
 
         if (!fileExists(fileName)) {
             createFile(fileName);

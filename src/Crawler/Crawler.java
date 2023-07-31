@@ -20,21 +20,24 @@ public class Crawler implements Runnable {
     private final String pageURL;
     private final Set<String> syncSetForURLS;
     private final Map<HtmlTag, List<Element>> parentElementMap;
+    List<HtmlTag> wantedElements;
     private String testHTML;
 
-    public Crawler(String baseURL, String pageURL, Set<String> syncSetForURLS, Map<HtmlTag, List<Element>> parentElementMap) {
+    public Crawler(String baseURL, String pageURL, Set<String> syncSetForURLS, Map<HtmlTag, List<Element>> parentElementMap, List<HtmlTag> wantedElements) {
         this.baseURL = baseURL;
         this.pageURL = pageURL;
         this.syncSetForURLS = syncSetForURLS;
         this.parentElementMap = parentElementMap;
-
+        this.wantedElements = wantedElements;
     }
 
-    public Crawler(String baseURL, String pageURL, Set<String> syncSetForURLS, Map<HtmlTag, List<Element>> parentElementMap, String testHTML) {
+
+    public Crawler(String baseURL, String pageURL, Set<String> syncSetForURLS, Map<HtmlTag, List<Element>> parentElementMap, List<HtmlTag> wantedElements, String testHTML) {
         this.baseURL = baseURL;
         this.pageURL = pageURL;
         this.syncSetForURLS = syncSetForURLS;
         this.testHTML = testHTML;
+        this.wantedElements = wantedElements;
         this.parentElementMap = parentElementMap;
     }
 
@@ -67,7 +70,7 @@ public class Crawler implements Runnable {
 
 
         if (html != null && !html.isEmpty()) {
-            Parser parser = new Parser(html);
+            Parser parser = new Parser(html, wantedElements);
             Map<HtmlTag, List<Element>> elementMap = parser.getElementMap();
 
 
@@ -88,7 +91,7 @@ public class Crawler implements Runnable {
                         if (!newPageURL.isEmpty()) {
                             syncSetForURLS.add(newPageURL);
 
-                            Crawler crawler = new Crawler(baseURL, newPageURL, syncSetForURLS, parentElementMap);
+                            Crawler crawler = new Crawler(baseURL, newPageURL, syncSetForURLS, parentElementMap, wantedElements);
                             Thread thread = new Thread(crawler);
                             threads.add(thread);
                             thread.start();

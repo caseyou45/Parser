@@ -2,7 +2,7 @@ package Parser;
 
 import BaseClasses.Element;
 import BaseClasses.HtmlTag;
-import Services.ElementFactory3;
+import Services.ElementFactory;
 
 import java.util.*;
 
@@ -10,11 +10,13 @@ public class Parser {
 
     private final String html;
     private final Map<HtmlTag, List<Element>> elementMap;
+    private final List<HtmlTag> wantedElements;
 
 
-    public Parser(String html) {
+    public Parser(String html, List<HtmlTag> wantedElements) {
         this.html = html;
         this.elementMap = new HashMap<>();
+        this.wantedElements = wantedElements;
         go();
     }
 
@@ -36,7 +38,7 @@ public class Parser {
 
         int end = html.length();
 
-        ElementFactory3 elementFactory = new ElementFactory3();
+        ElementFactory elementFactory = new ElementFactory(wantedElements);
 
         Element el;
 
