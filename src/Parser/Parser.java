@@ -11,12 +11,14 @@ public class Parser {
     private final String html;
     private final Map<HtmlTag, List<Element>> elementMap;
     private final List<HtmlTag> wantedElements;
+    private final String pageURL;
 
 
-    public Parser(String html, List<HtmlTag> wantedElements) {
+    public Parser(String html, List<HtmlTag> wantedElements, String pageURL) {
         this.html = html;
         this.elementMap = new HashMap<>();
         this.wantedElements = wantedElements;
+        this.pageURL = pageURL;
         go();
     }
 
@@ -79,7 +81,7 @@ public class Parser {
                         top.setInnerHTML(html.substring(top.getIndexOfEndOfStartingTag(), index));
                     }
 
-
+                    top.setPageURL(pageURL);
                     elementMap.computeIfAbsent(top.getType(), key -> new ArrayList<>()).add(top);
 
                     deque.pop();

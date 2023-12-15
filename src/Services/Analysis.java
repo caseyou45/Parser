@@ -3,7 +3,9 @@ package Services;
 import BaseClasses.Element;
 import BaseClasses.HtmlAttribute;
 import BaseClasses.HtmlTag;
+import File.FileHandler;
 
+import java.io.File;
 import java.util.*;
 
 public class Analysis {
@@ -15,7 +17,6 @@ public class Analysis {
         this.parentElementMap = parentElementMap;
         this.htmlConfigParser = htmlConfigParser;
 
-
         analysis();
     }
 
@@ -24,14 +25,27 @@ public class Analysis {
         List<HtmlTag> tags = htmlConfigParser.getTags();
         List<HtmlAttribute> attributes = htmlConfigParser.getAttributes();
 
+        FileHandler.createFile("result.txt");
+
+        StringBuilder stringBuilder = new StringBuilder();
+
         for (HtmlTag htmlTag : tags) {
+            stringBuilder.append("Element: " + htmlTag.getOpeningTag());
+            stringBuilder.append("\n\n");
             for (Element element : parentElementMap.get(htmlTag)) {
                 for (HtmlAttribute htmlAttribute : attributes) {
-                    System.out.println(element.getAttributes().get(htmlAttribute));
+                    if (element.getAttributes().get(htmlAttribute) != null) {
+                        stringBuilder.append("\t\t" + element.getPageURL());
+                        stringBuilder.append("\n");
+                        stringBuilder.append("\t\t" + htmlAttribute + ": " + element.getAttributes().get(htmlAttribute));
+                        stringBuilder.append("\n\n");
+                    }
                 }
             }
 
         }
+
+        FileHandler.appendToFile("result.txt", stringBuilder.toString());
 
 
     }

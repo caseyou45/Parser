@@ -16,6 +16,7 @@ public abstract class SelfClosingTag implements Element {
     private int endOfElement;
     private int indexOfEndOfStartingTag;
     private String innerHTML;
+    private String URL;
 
 
     public SelfClosingTag(String startingTag, String endingTag, HtmlTag type) {
@@ -88,6 +89,14 @@ public abstract class SelfClosingTag implements Element {
 
     public void setAttributes(String unparsedAttributes) {
         this.attributes = HTMLAttributeProcessor.parseStringToAttributeHashMap(unparsedAttributes);
+    }
+
+    public String getPageURL() {
+        return URL;
+    }
+
+    public void setPageURL(String URL) {
+        this.URL = URL;
     }
 
 

@@ -58,9 +58,10 @@ public class ElementFactory {
 
         while (i < html.length() && html.charAt(i) != '>' && html.charAt(i) != ' ') i++;
 
-
         String tag = html.substring(base, i);
+
         Supplier<Element> factory = factoryMap.get(tag.toLowerCase());
+
         if (factory != null) {
             return factory.get();
         }

@@ -70,7 +70,7 @@ public class Crawler implements Runnable {
 
 
         if (html != null && !html.isEmpty()) {
-            Parser parser = new Parser(html, wantedElements);
+            Parser parser = new Parser(html, wantedElements, pageURL);
             Map<HtmlTag, List<Element>> elementMap = parser.getElementMap();
 
 

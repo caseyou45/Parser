@@ -6,6 +6,10 @@ public interface Element {
 
     int getStartingTagLength();
 
+    void setPageURL(String url);
+
+    String getPageURL();
+
     int getEndingTagLength();
 
     String getStartingTag();

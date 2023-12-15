@@ -32,7 +32,9 @@ public class Main {
 
 
         Thread initialThread = new Thread(crawler);
+
         initialThread.start();
+
         try {
             initialThread.join();
         } catch (InterruptedException e) {

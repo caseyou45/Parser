@@ -7,6 +7,7 @@ import java.util.Map;
 
 public abstract class NonSelfClosingTag implements Element {
 
+
     private final String startingTag;
     private final String endingTag;
     private final HtmlTag type;
@@ -17,6 +18,7 @@ public abstract class NonSelfClosingTag implements Element {
     private int indexOfEndOfStartingTag;
     private String innerHTML;
 
+    private String URL;
 
     public NonSelfClosingTag(String startingTag, String endingTag, HtmlTag type) {
         this.attributes = new HashMap<>();
@@ -90,5 +92,11 @@ public abstract class NonSelfClosingTag implements Element {
         this.attributes = HTMLAttributeProcessor.parseStringToAttributeHashMap(unparsedAttributes);
     }
 
+    public String getPageURL() {
+        return URL;
+    }
 
+    public void setPageURL(String URL) {
+        this.URL = URL;
+    }
 }
